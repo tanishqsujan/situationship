@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rizzorante: Love, delivered. Eventually.</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bg"></div>
+<div id="app">
+
+  <section id="splash" class="scr on">
+    <h1>Rizzorante</h1>
+    <p>Love, delivered. Eventually.</p>
+    <div class="load"><i id="lbar"></i></div>
+    <p id="ltxt">Starting...</p>
+  </section>
+
+    <section id="profile" class="scr">
+    <h2>Create your Rizzorante account</h2>
+    <p>We use this to find your perfect match, and to ignore it later.</p>
+    <input id="uname" placeholder="Your name" maxlength="20">
+    <input id="uage" type="number" min="1" max="99" placeholder="Your age">
+    <select id="ugender">
+      <option value="">Select gender</option>
+      <option value="m">Male</option>
+      <option value="f">Female</option>
+      <option value="o">Other / Prefer not to say</option>
+    </select>
+    <button id="goTc" class="btn">Continue</button>
+  </section>
+
+  <section id="tc" class="scr">
+    <h2>Before we find you someone</h2>
+    <p>Allergy declaration: like food allergies, but for people. Name someone who must NOT be delivered to you.</p>
+    <input id="ex" placeholder="Someone who should NOT show up (for safety reasons)" maxlength="20">
+    <button id="noex" class="btn alt" type="button">I have no ex. Assign me one.</button>
+    <label class="chk"><input type="checkbox" id="a1"> I accept being left on read</label>
+    <label class="chk"><input type="checkbox" id="a2"> I will not text my ex (lies)</label>
+    <button id="decline" class="btn alt">Decline</button>
+    <button id="accept" class="btn">Accept and start craving</button>
+  </section>
+
+  <section id="home" class="scr">
+    <div class="top"><b class="brand">Rizzorante</b><button id="cartBtn" class="cart">🛒 <span id="cnt">0</span></button></div>
+    <p class="loc">📍 Delivering to: <b>Your Feelings</b></p>
+    <div class="cook">
+      <input id="wish" placeholder="Describe your ideal partner (tall, funny, replies fast)" maxlength="60">
+      <button id="cook" class="btn">Cook it up</button>
+    </div>
+    <div id="menu"></div>
+  </section>
+
+  <section id="cart" class="scr">
+    <div class="top"><button id="back" class="cart">← Menu</button><b class="brand">Your cart</b></div>
+    <div id="cartList"></div>
+    <div class="row"><input id="coupon" placeholder="Coupon code (try SINGLE50)"><button id="apply" class="btn sm">Apply</button></div>
+    <label>Tip the rider: ₹<b id="tipv">0</b><input type="range" id="tip" min="0" max="200" value="0"></label>
+    <p id="meter" class="meter"></p>
+    <ul id="bill" class="bill"></ul>
+    <button id="place" class="btn">Place order</button>
+  </section>
+
+  <section id="track" class="scr">
+    <div class="top"><b class="brand">Live tracking</b></div>
+    <h3 id="eta">ETA: calculating...</h3>
+    <div class="road"><span id="rider">🛵</span><span class="home">🏠</span></div>
+    <p id="where" class="where">Rider is preparing emotionally...</p>
+    <ul id="log" class="log"></ul>
+    <div class="row"><input id="msg" placeholder="Message your rider" maxlength="80"><button id="send" class="btn sm">Send</button></div>
+    <button id="cancel" class="btn alt">Cancel order</button>
+  </section>
+
+  <section id="end" class="scr">
+    <div id="receipt" class="receipt"></div>
+    <div class="row"><button id="dl" class="btn sm">Download receipt</button><button id="again" class="btn sm alt">Order again</button></div>
+  </section>
+</div>
+
+<div id="call" class="ov hide"><div class="ph">📞<h2>Rider Raju</h2><p>wants to confirm your order. Answer to improve delivery accuracy.</p><div class="row"><button id="rej" class="btn alt sm">Decline</button><button id="ans" class="btn sm">Answer</button></div></div></div>
+
+<div id="wtf" class="ov hide">
+  <div class="ph">
+    <h2 id="dTitle">ORDER DELIVERED ✅</h2>
+    <div class="big" id="wtfEm">📦</div>
+    <p id="dInfo"></p>
+    <button id="details" class="btn">View details</button>
+    <div id="twist" class="hide">
+      <h1 id="wtfName"></h1>
+      <p id="twTxt"></p>
+      <textarea id="issue" rows="2" placeholder="What is the issue? (e.g. he said 'k')" maxlength="100"></textarea>
+      <button id="report" class="btn">Submit complaint</button>
+    </div>
+    <p id="rlog" class="rlog"></p>
+    <div class="load"><i id="rbar"></i></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="ticker"><span id="tick"></span></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
