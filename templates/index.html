@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#100B18" />
+    <title>Situaship — Your perfect match. Our questionable delivery.</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body data-mood="dramatic">
+    <div class="scene" aria-hidden="true">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="orb orb-c"></div>
+      <div class="grid"></div>
+      <div class="grain"></div>
+      <svg class="routes" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="routeGlow" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#FF6482" stop-opacity="0.9" />
+            <stop offset="50%" stop-color="#B9A0FF" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="#FF4FB8" stop-opacity="0.85" />
+          </linearGradient>
+        </defs>
+        <path class="route-line" d="M80 620 C 220 480, 280 240, 470 260 S 760 430, 940 210" />
+        <path class="route-line delayed" d="M160 140 C 340 220, 420 520, 680 480 S 980 620, 1120 360" />
+        <circle class="route-dot d1" r="4" fill="#D6FF78">
+          <animateMotion dur="14s" repeatCount="indefinite" path="M80 620 C 220 480, 280 240, 470 260 S 760 430, 940 210" />
+        </circle>
+        <circle class="route-dot d2" r="3.5" fill="#FF6482">
+          <animateMotion dur="20s" repeatCount="indefinite" path="M160 140 C 340 220, 420 520, 680 480 S 980 620, 1120 360" />
+        </circle>
+      </svg>
+      <div class="floaters">
+        <span class="floater heart"></span>
+        <span class="floater broken"></span>
+        <span class="floater pin"></span>
+        <span class="floater box"></span>
+        <span class="floater spark s1"></span>
+        <span class="floater spark s2"></span>
+        <span class="floater spark s3"></span>
+      </div>
+    </div>
+
+    <a class="skip-link" href="#app">Skip to content</a>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="36" height="36">
+            <path d="M24 42s-14-8.8-14-20A8 8 0 0 1 24 16a8 8 0 0 1 14 6c0 11.2-14 20-14 20z" fill="none" stroke="#FF6482" stroke-width="2.4"/>
+            <path d="M18 22h12M30 22c4 3 7 8 4 13" fill="none" stroke="#B9A0FF" stroke-width="2"/>
+            <circle cx="34" cy="14" r="4" fill="#D6FF78"/>
+            <path d="M34 11.5v5M31.5 14h5" stroke="#100B18" stroke-width="1.4"/>
+          </svg>
+        </span>
+        <div>
+          <p class="wordmark">Situaship</p>
+          <p class="tagline">Your perfect match. Our questionable delivery.</p>
+        </div>
+      </div>
+      <div class="top-meta">
+        <span id="groqBadge" class="badge">Fallback comedy</span>
+        <button class="icon-btn cart-chip" id="cartChip" type="button" hidden>
+          Cart <span id="cartCount">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="app" class="app">
+      <section class="screen active" id="screen-splash" data-screen="splash">
+        <div class="hero-panel glass">
+          <p class="kicker">Relationship logistics, poorly executed</p>
+          <h1>Order a soulmate.<br />Receive a plot twist.</h1>
+          <p class="lede">We route romance like dumplings: optimistic ETAs, mysterious riders, and packaging that cannot hold feelings.</p>
+          <div class="loader-card" id="splashLoader">
+            <div class="pulse-ring"></div>
+            <p id="splashStatus">Finding your perfect match…</p>
+            <div class="bar"><span id="splashBar"></span></div>
+          </div>
+          <p class="confidence" id="splashDone" hidden>Search complete. Our confidence exceeds our accuracy.</p>
+          <button class="btn btn-primary" id="startBtn" type="button" disabled>Start Ordering</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-relationship" data-screen="relationship">
+        <div class="glass panel">
+          <h2>Who are we absolutely NOT supposed to deliver?</h2>
+          <p class="muted">Pick one. We will respect it in writing and ignore it in transit.</p>
+          <div class="choice-grid" role="radiogroup" aria-label="Relationship path">
+            <button class="choice-card" type="button" data-option="ex" aria-pressed="false">
+              <span class="choice-label">I have an ex</span>
+              <span class="muted">I have moved on. Please don't deliver them again.</span>
+            </button>
+            <button class="choice-card alt" type="button" data-option="never" aria-pressed="false">
+              <span class="choice-label">I've never dated anyone</span>
+              <span class="muted">Please find me someone who actually exists.</span>
+            </button>
+          </div>
+          <div class="field" id="nameField" hidden>
+            <label for="personName" id="nameLabel">Enter your ex's name</label>
+            <input id="personName" type="text" maxlength="40" autocomplete="off" />
+            <p class="error" id="nameError" hidden></p>
+          </div>
+          <button class="btn btn-primary" id="relContinue" type="button">Continue</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-terms" data-screen="terms">
+        <div class="glass panel">
+          <h2>Terms we definitely thought about</h2>
+          <ul class="terms-list">
+            <li>We cannot guarantee emotional availability, GPS accuracy, or object permanence.</li>
+            <li>All relationship outcomes are final, including the ones you specifically forbade.</li>
+            <li>Soulmates may be substituted without notice. Substitutes may be conceptual.</li>
+          </ul>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="acceptTerms" type="button">Accept</button>
+            <button class="btn btn-ghost" id="declineTerms" type="button">Decline</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-menu" data-screen="menu">
+        <div class="panel-head">
+          <div>
+            <h2>Tonight's emotionally unstable menu</h2>
+            <p class="muted">Prices in INR. Feelings sold separately, then recalled.</p>
+          </div>
+        </div>
+        <div class="filters" id="filters" role="tablist"></div>
+        <div class="product-grid" id="productGrid"></div>
+        <div class="glass custom-box">
+          <h3>Commission a custom disaster</h3>
+          <p class="muted">Describe your ideal partner. Our warehouse will invent a SKU and a price.</p>
+          <label class="sr-only" for="customPrompt">Custom partner request</label>
+          <textarea id="customPrompt" rows="3" maxlength="400" placeholder="Someone who remembers what I say, replies on time, and never says “I'm fine” when they're not."></textarea>
+          <button class="btn btn-secondary" id="customBtn" type="button">Generate custom item</button>
+          <div class="skeleton" id="customSkeleton" hidden></div>
+        </div>
+        <div class="sticky-cta">
+          <button class="btn btn-primary" id="toCart" type="button">Review cart</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-cart" data-screen="cart">
+        <div class="glass panel">
+          <h2>Cart: feelings, fees, and a tip with consequences</h2>
+          <div id="cartLines" class="cart-lines"></div>
+          <div class="split">
+            <div>
+              <label for="couponInput">Coupon</label>
+              <div class="inline">
+                <input id="couponInput" type="text" maxlength="16" placeholder="SINGLE50" />
+                <button class="btn btn-ghost" id="applyCoupon" type="button">Apply</button>
+                <button class="btn btn-ghost" id="removeCoupon" type="button">Remove</button>
+              </div>
+              <p class="muted" id="couponMsg"></p>
+              <label for="tipSlider">Tip the rider (this is a gameplay mechanic)</label>
+              <input id="tipSlider" type="range" min="0" max="200" step="1" value="50" />
+              <p id="tipReadout"></p>
+              <p class="mood-pill" id="moodPill"></p>
+            </div>
+            <aside class="totals" id="cartTotals"></aside>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="backMenu" type="button">Back to menu</button>
+            <button class="btn btn-primary" id="checkoutBtn" type="button">Place questionable order</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-tracking" data-screen="tracking">
+        <div class="tracking-layout">
+          <div class="glass map-card">
+            <div class="map-meta">
+              <p>Stop <span id="stopNow">0</span> of <span id="stopTotal">0</span></p>
+              <p>ETA <strong id="etaReadout">—</strong></p>
+              <p id="trackMood"></p>
+            </div>
+            <svg id="trackMap" class="track-map" viewBox="0 0 640 360" role="img" aria-label="Fictional delivery map">
+              <defs>
+                <linearGradient id="mapRoute" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#FF6482" />
+                  <stop offset="100%" stop-color="#B9A0FF" />
+                </linearGradient>
+              </defs>
+              <rect width="640" height="360" rx="18" fill="#120818" />
+              <path class="map-grid-lines" d="M0 60h640M0 120h640M0 180h640M0 240h640M0 300h640M80 0v360M160 0v360M240 0v360M320 0v360M400 0v360M480 0v360M560 0v360" />
+              <path id="deliveryPath" d="M70 280 C 150 240, 160 90, 260 110 S 390 250, 470 160 S 560 80, 580 120" fill="none" stroke="url(#mapRoute)" stroke-width="4" stroke-linecap="round" />
+              <circle id="pickupPin" cx="70" cy="280" r="8" fill="#D6FF78" />
+              <circle id="dropPin" cx="580" cy="120" r="8" fill="#FF4FB8" />
+              <g id="riderMark">
+                <circle r="11" fill="#FF6482" />
+                <circle r="4" fill="#100B18" />
+              </g>
+            </svg>
+            <div class="progress"><span id="trackProgress"></span></div>
+            <ol class="timeline" id="timeline"></ol>
+            <div class="btn-row track-actions">
+              <button class="btn btn-primary" id="nextStop" type="button">Advance to Next Stop</button>
+              <button class="btn btn-danger" id="cancelBtn" type="button">Cancel Order</button>
+            </div>
+            <label class="auto-track">
+              <input id="autoTrack" type="checkbox" />
+              Auto-advance slowly (12s per stop)
+            </label>
+          </div>
+          <div class="glass chat-card">
+            <h3>Rider chat</h3>
+            <div class="chat-log" id="chatLog" aria-live="polite"></div>
+            <div class="quick" id="quickReplies"></div>
+            <div class="inline">
+              <label class="sr-only" for="chatInput">Message the rider</label>
+              <input id="chatInput" type="text" maxlength="280" placeholder="Type a complaint disguised as a question" />
+              <button class="btn btn-primary" id="sendChat" type="button">Send</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-reveal" data-screen="reveal">
+        <div class="glass reveal-panel">
+          <div id="revealArt" class="reveal-art"></div>
+          <h2 id="revealTitle"></h2>
+          <p id="revealLead" class="lede"></p>
+          <p id="revealSub" class="muted"></p>
+          <button class="btn btn-primary" id="toComplaint" type="button">Continue to Complaint</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-complaint" data-screen="complaint">
+        <div class="glass panel">
+          <h2>File a complaint we will emotionally unsee</h2>
+          <p id="complaintContext" class="muted"></p>
+          <div class="choice-grid compact" id="complaintChoices"></div>
+          <button class="btn btn-primary" id="submitComplaint" type="button">Submit complaint</button>
+          <div id="refundStage" hidden>
+            <p>Processing refund through our feelings department…</p>
+            <div class="bar tall"><span id="refundBar"></span></div>
+            <p id="refundPct">0%</p>
+            <div id="refundPunch" class="punch" hidden>
+              <h3>REFUND PROCESSED SUCCESSFULLY.</h3>
+              <p>Refund method: One virtual hug.</p>
+              <p>Actual monetary refund: ₹0.</p>
+              <button class="btn btn-primary" id="toReceipt" type="button">View emotional damage receipt</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-receipt" data-screen="receipt">
+        <article class="receipt glass" id="receiptPaper">
+          <header class="receipt-head">
+            <p class="wordmark">Situaship</p>
+            <p>Emotional Damage Receipt</p>
+            <p id="receiptMeta"></p>
+          </header>
+          <div id="receiptBody"></div>
+          <blockquote class="review" id="receiptReview">Generating rider review…</blockquote>
+        </article>
+        <div class="btn-row no-print">
+          <button class="btn btn-secondary" id="downloadReceipt" type="button">Download Receipt</button>
+          <button class="btn btn-primary" id="orderAgain" type="button">Order Again</button>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast-region" id="toasts" aria-live="polite" aria-relevant="additions"></div>
+
+    <div class="modal" id="callModal" hidden>
+      <div class="modal-card incoming" role="dialog" aria-modal="true" aria-labelledby="callTitle">
+        <div class="call-pulse"></div>
+        <p class="kicker">Incoming call</p>
+        <h2 id="callTitle">Unknown Number</h2>
+        <p class="muted">Probably important. Definitely unhelpful.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="acceptCall" type="button">Accept</button>
+          <button class="btn btn-danger" id="declineCall" type="button">Decline</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/order_rules.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
