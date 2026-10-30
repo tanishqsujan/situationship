@@ -93,10 +93,37 @@
       <textarea id="issue" rows="2" placeholder="What is the issue? (e.g. he said 'k')" maxlength="100"></textarea>
       <button id="report" class="btn">Submit complaint</button>
     </div>
+    <div id="exBox" class="hide">
+      <h1 id="exName"></h1>
+      <p id="exTxt"></p>
+      <div class="row"><button id="rateBtn" class="btn sm">⭐ Rate</button><button id="compBtn" class="btn sm alt">Complaint</button></div>
+      <div id="rateBox" class="hide"><div id="stars"></div><p id="starTxt"></p></div>
+      <div id="compBox" class="hide">
+        <textarea id="issue2" rows="2" placeholder="What is the issue? (e.g. they said 'k')" maxlength="100"></textarea>
+        <button id="sub2" class="btn">Submit complaint</button>
+      </div>
+      <button id="gameBtn" class="btn hide">Want your refund back?</button>
+      <button id="skipBtn" class="btn alt hide">No thanks, show receipt</button>
+    </div>
     <p id="rlog" class="rlog"></p>
     <div class="load"><i id="rbar"></i></div>
   </div>
 </div>
+
+<div id="game" class="ov hide"><div class="ph">
+  <h2>Win your refund back</h2>
+  <p>Click, tap or press Space to flap the heart. Pass 5 gaps to win. You get 2 tries.</p>
+  <canvas id="gc" width="320" height="400"></canvas>
+  <button id="gStart" class="btn">Start</button>
+  <div id="gRes" class="hide"><h3 id="gResT"></h3><p id="gResP"></p><button id="gOk" class="btn">OK</button></div>
+</div></div>
+
+<div id="gPop" class="ov hide"><div class="ph red">
+  <div class="big" id="gpEm">🎉</div>
+  <h2 id="gpT"></h2>
+  <p id="gpP"></p>
+  <button id="gpOk" class="btn">OK</button>
+</div></div>
 
 <div id="toast"></div>
 <div id="ticker"><span id="tick"></span></div>

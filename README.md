@@ -1,122 +1,78 @@
-# Situaship
+# Rizzorante
 
-A satirical relationship-delivery web app. You order a dream partner. The logistics department has other plans.
+Love, delivered. Not what you ordered.
 
-**Tagline:** Your perfect match. Our questionable delivery.
+Rizzorante is a food delivery app where the menu is people. We built it for What The Hack 2.0 (ACM x MTC) because the theme was to make something nobody asked for, and nobody has ever asked for this.
 
-Situaship is a single-page Flask app (HTML, CSS, vanilla JavaScript). It is not a dating product. It is a comedy about treating romance like a delivery SKU.
+## The idea
 
-## Features
+Every delivery app asks about your allergies and then ignores the answer. Rizzorante does the same thing, but with people. Before you order, it asks who you are allergic to. Then it delivers that exact person to you.
 
-- Two journeys: **I have an ex** and **I've never dated anyone**
-- Ridiculous terms you cannot actually decline
-- Partner menu with stock states, filters, cart quantities, and a custom AI SKU
-- Coupons (`SINGLE50`, expired `MOVEON`), tip slider, rider mood
-- Fictional SVG tracking map, rider chat, fake incoming call, cancellation gag
-- Wrong-delivery reveal, complaint desk, ₹0 virtual-hug refund
-- Personalized emotional-damage receipt with print/PDF download
-- Order Again resets the entire order
-- Groq integration for comedy copy, with deterministic fallbacks
+## What happens when you use it
+
+1. You enter your name, age and gender. You have to be 18 or older.
+2. The app asks you to name someone who should not be delivered to you. If you do not have anyone, there is a button that assigns you a random ex.
+3. You pick items from the menu, or type a wish and let the AI make a custom item out of it.
+4. You apply a coupon, set a tip and place the order. A low tip makes the rider angry and adds extra stops.
+5. You follow the rider on the tracking screen. He takes detours, the ETA keeps going up, he calls you to confirm the order, and you can chat with him.
+6. The order arrives and it is the person from your allergy list, with a name and an age.
+7. You can rate the delivery or file a complaint. A complaint gets read, ignored and the refund is rejected.
+8. If you want the refund back, you can play a small flappy-bird style game with a heart. Win and you get another hug instead of money. Lose and you get a chocolate.
+9. You get a receipt with everything on it. You can download it as an image.
+
+## Tech
+
+- Plain HTML, CSS and JavaScript on the front end, no framework
+- A small Node server (`server.js`) that serves the files and runs the API function
+- One serverless-style function (`api/generate.js`) that calls the Groq API
+- The browser's built-in speech for the rider's voice, and the Web Audio API for the sound effects
+- html2canvas for the receipt download
+
+The AI is used in three places: the custom menu item, the rider's chat replies, and the review on the receipt. Every one of them has a pre-written fallback, so the app still works with no key or no internet.
+
+## How to run it
+
+You need Node.js 18 or newer.
+
+1. Clone the repo and open the folder in a terminal.
+2. Create a file named `.env` in the same folder as `server.js` with this line:
+
+```
+AI_API_KEY=your_groq_key_here
+GROQ_MODEL=openai/gpt-oss-20b
+```
+
+3. Start the server:
+
+```
+node server.js
+```
+
+4. Open http://localhost:3000 in your browser.
+
+If you skip step 2, the app still runs and uses the fallback lines instead of the AI.
+
+For a quick run, open http://localhost:3000/?fast. The splash screen is shorter and the rider moves faster.
+
+Groq changes its model names from time to time. If the AI stops working, check the terminal output and set `GROQ_MODEL` to a model that is listed in the Groq console.
 
 ## Project structure
 
 ```
-app.py                 Flask app and Groq routes
-situaship_logic.py     Deterministic pricing, coupons, stops, fallbacks
-templates/index.html   Single-page UI
-static/css/styles.css  Visual system and animated background
-static/js/app.js       Shared order state and all screens
-tests/                 Unit tests for logic and Flask routes
-requirements.txt
-.env.example
+index.html        page structure and all screens
+style.css         styling
+script.js         app logic and the heart game
+server.js         local server
+api/generate.js   calls the AI for the menu item, rider chat and receipt review
 ```
 
-## Pricing notes (deterministic)
+## Notes
 
-- Delivery fee: ₹49 when the cart is non-empty
-- Emotional-baggage fee: ₹88 (ex path) or ₹42 (never-dated path)
-- Surge fee: ₹37 when the cart is non-empty
-- `SINGLE50`: 50% off **product subtotal only**, never stacked
-- Tip below ₹20: rider furious, **exactly two** extra stops
-- Tip ₹20–₹99.99: neutral
-- Tip ₹100+: smug
-- Base stops = sum of purchased quantities
-- ETA = remaining stops × 4 minutes
-- Sixth cancellation attempt: ₹500 penalty once, rider rolls back one completed stop (never below zero)
+- The `.env` file holds your API key. It is in `.gitignore` and should never be committed.
+- Nothing you type is stored. Everything lives in the page until you close it.
+- All the names are made up. None of them are real people.
 
-AI never calculates totals, discounts, stops, penalties, or refunds.
+## Team
 
-## Windows setup (CMD)
-
-```bat
-cd path\to\situationship
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-copy .env.example .env
-python app.py
-```
-
-Open http://127.0.0.1:5000
-
-PowerShell activation:
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-## Groq configuration
-
-1. Create an API key in the [Groq Console](https://console.groq.com/keys).
-2. Put it only in a local `.env` file (never commit it):
-
-```
-GROQ_API_KEY=your_groq_api_key_here
-GROQ_MODEL=openai/gpt-oss-120b
-```
-
-The backend calls Groq's OpenAI-compatible Chat Completions endpoint:
-
-`POST https://api.groq.com/openai/v1/chat/completions`
-
-Authorization: `Bearer $GROQ_API_KEY`
-
-Default model: `openai/gpt-oss-120b` (override with `GROQ_MODEL`).
-
-The key stays on the server. The browser never sees it.
-
-## Fallback mode
-
-If `GROQ_API_KEY` is missing, billing fails, the request times out, or Groq returns malformed output, the app uses local comedy templates. You can complete both journeys without a key. The header shows **Fallback comedy** or **Groq configured**; that status indicates only that a key is present, not that a live API request has succeeded.
-
-## How to demo both journeys
-
-**Journey A — I have an ex**
-
-1. Start ordering → choose **I have an ex** → enter `Rahul`
-2. Accept or decline the terms (decline still continues)
-3. Add in-stock items. Try the out-of-stock boyfriend (it should refuse)
-4. Optionally generate a custom item
-5. Cart: try `MOVEON`, then `SINGLE50`, then a tip under ₹20
-6. Track delivery, trigger the fake call at stop 2, mash **Cancel Order** six times
-7. Receive Rahul, complain, watch the refund freeze at 99%, open the receipt
-8. Download/print, then **Order Again**
-
-**Journey B — I've never dated anyone**
-
-1. Choose that path. Leave the name blank to get **Your Imaginary Soulmate**, or type a custom name
-2. Complete checkout with a tip of ₹100 (smug rider, no extra stops)
-3. Confirm the empty-box reveal, complaint, receipt, and reset
-
-## Tests
-
-```bat
-python -m unittest tests.test_logic tests.test_app
-```
-
-## Known limitations
-
-- There is no real payment, real map, or real refund
-- Groq quality and availability depend on your Groq account, selected model, and service limits
-- Print/PDF uses the browser print dialog (`window.print()`)
-- The incoming-call overlay is fictional UI, not a telephony integration
+Team Name:- ACM_Techie
+Member:- Tanishq Sujan

@@ -4,7 +4,7 @@ const T = 'You are the voice of Rizzorante, a parody delivery app that delivers 
 const PROMPTS = {
   item: d => `${T} Turn this wish into a menu item: "${d.wish}". Return ONLY JSON: {"name":"funny item name","desc":"max 15 words","price":number between 99 and 999,"warning":"max 8 words, like May contain: ghosting"}`,
   rider: d => `${T} You are the delivery rider, mood: ${d.mood}. The customer ordered: ${d.items}. Customer says: "${d.msg}". Reply in max 25 words, stuck in emotional baggage traffic, never actually helpful.`,
-  review: d => `${T} You are the rider writing a 2-sentence review of the customer, who ordered ${d.items}, tipped ₹${d.tip}, and the delivery outcome was: ${d.ex}. Roast gently.`
+  review: d => `${T} You are a sarcastic delivery rider leaving a short joke review of a customer on a parody app. The customer ordered ${d.items} and tipped ₹${d.tip}, but the app delivered ${d.ex} instead, as a silly twist. Write two short, playful sentences teasing the customer about their order and tip. Keep it light and harmless.`
 };
 
 module.exports = async (req, res) => {
@@ -22,11 +22,12 @@ module.exports = async (req, res) => {
         model,
         messages: [{ role: 'user', content: PROMPTS[type](data || {}) }],
         temperature: 1.1,
-        max_tokens: 400,
+        max_tokens: 1000,
         ...(type === 'item' ? { response_format: { type: 'json_object' } } : {})
       })
     });
     const j = await r.json();
+    console.log('AI response:', JSON.stringify(j).slice(0, 500));
     const text = j?.choices?.[0]?.message?.content;
     if (!text) return res.status(502).json({ error: 'no text', detail: j });
     res.status(200).json({ text });
